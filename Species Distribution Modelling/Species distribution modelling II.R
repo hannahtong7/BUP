@@ -19,7 +19,12 @@ occdata <- geodata::sp_occurrence("Indri", "indri", geo=FALSE,removeZeros=TRUE,s
 
 #get dimensions of the data.frame
 dim(occdata)
+occdata[1:10,]
 
-
-
+#Now we have the data for our species we can plot the global distribution to make sure it fits with our expectation.
+wrld <- world(path="~/Documents/temp/BUP/Data")
+#this function gives us an outline of the world's political boundaries. Reminder, if ever you want to know more about an R function, you can write ?function.name, e.g., ?world
+plot(wrld, xlim=c(-180,180), ylim=c(-80,80), col="light yellow", border="light gray")
+# add the points
+points(occdata$lon, occdata$lat, col='blue', pch=20)
   
