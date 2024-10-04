@@ -27,4 +27,21 @@ wrld <- world(path="~/Documents/temp/BUP/Data")
 plot(wrld, xlim=c(-180,180), ylim=c(-80,80), col="light yellow", border="light gray")
 # add the points
 points(occdata$lon, occdata$lat, col='blue', pch=20)
+
+#remove duplicate records
+dups <- duplicated(occdata[, c('lon', 'lat')])
+#This identifies observations that have already appeared above
+sum(dups)
+#There are a lot of them, so removing them will give us a smaller dataset to work with
+occ <- occdata[!dups, ]
+
+
+
+
+
+
+
+
+
+
   
