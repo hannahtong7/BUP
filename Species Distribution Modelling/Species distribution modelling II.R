@@ -63,3 +63,16 @@ bg<-spatSample(predictors,2000,"random", na.rm=TRUE, as.points=TRUE,ext=e)
 #Here we'll plot our background points on a map of climwin variable 1 (you could change this to any of the worldclim variables)
 plot(predictors, 1)
 points(bg, cex=0.1)
+
+occlatlon<-cbind(occ$lon,occ$lat)
+presvals <- extract(predictors, occlatlon)
+#presvals is the climate data for where the species is present
+backvals <- values(bg)
+#backvals is the climate data for the background data
+bg_lonlat<-geom(bg)
+lonlats<-rbind(occlatlon, bg_lonlat[,c("x","y")])
+pb <- c(rep(1, nrow(presvals)), rep(0, nrow(backvals)))
+#The first column of the dataset is a vector of 1s for presences and 0s for background data.
+sdmdata <- data.frame(cbind(lonlats,pb, rbind(presvals, backvals)))
+#here we combine the presence and background data into a single data frame
+pairs(sdmdata[,4:7], cex=0.1)
