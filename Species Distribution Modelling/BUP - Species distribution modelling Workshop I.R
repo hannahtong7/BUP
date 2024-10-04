@@ -1,5 +1,6 @@
-install.packages("raster",dependencies=TRUE,repos="https://cloud.r-project.org")
-library(raster)
+install.packages("geodata",dependencies=TRUE,repos="https://cloud.r-project.org")
+library(geodata)
+library(terra)
 
 #Set working directory 
 setwd("~/Documents/temp/BUP/Data")
