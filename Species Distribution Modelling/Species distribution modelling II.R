@@ -35,13 +35,25 @@ sum(dups)
 #There are a lot of them, so removing them will give us a smaller dataset to work with
 occ <- occdata[!dups, ]
 
+#Downloading worldclim data 
+output_dir<-"~/Documents/temp/BUP/Data"
+bio_glob<-worldclim_global(var="bio", res=10,path=output_dir, version="2.1")
+dim(bio_glob)
 
+#we will also clip the spatraster so it only covers the spatial extent of our study species. First its longitudes then latitudes
+summary(occ$lon)
+summary(occ$lat)
 
+e <- ext(40, 60, -30, -10)
 
+predictors <- crop(bio_glob, e)
 
+names(predictors)<-substring(names(predictors),11,16)
+#here we're just shortening the names of predictors by taking the 11th to 16th characters.
 
+plot(predictors,1:9)
 
-
-
-
+#Add species data into a plot of plate for the first variable
+plot(predictors,1)
+points(occ$lon,occ$lat, col='orange',pch=16,cex=0.2)
   
