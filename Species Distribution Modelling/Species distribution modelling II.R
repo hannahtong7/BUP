@@ -56,4 +56,10 @@ plot(predictors,1:9)
 #Add species data into a plot of plate for the first variable
 plot(predictors,1)
 points(occ$lon,occ$lat, col='orange',pch=16,cex=0.2)
-  
+ 
+#here I'm setting the spatial extent to be broadly consistent with that of my study species (you need to make sure it is sampling from the same extent). Remember to find out how a function works you can do ?function
+bg<-spatSample(predictors,2000,"random", na.rm=TRUE, as.points=TRUE,ext=e)
+
+#Here we'll plot our background points on a map of climwin variable 1 (you could change this to any of the worldclim variables)
+plot(predictors, 1)
+points(bg, cex=0.1)
