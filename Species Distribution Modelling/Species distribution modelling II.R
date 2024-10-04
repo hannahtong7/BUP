@@ -14,4 +14,12 @@ library(geodata)
 library(predicts)
 library(terra)
 
+#By stating geo = TRUE we select only records that have latitude and longitude recorded.
 occdata <- geodata::sp_occurrence("Indri", "indri", geo=FALSE,removeZeros=TRUE,start=1,end=10000)
+
+#get dimensions of the data.frame
+dim(occdata)
+
+
+
+  
