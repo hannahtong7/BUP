@@ -76,3 +76,38 @@ pb <- c(rep(1, nrow(presvals)), rep(0, nrow(backvals)))
 sdmdata <- data.frame(cbind(lonlats,pb, rbind(presvals, backvals)))
 #here we combine the presence and background data into a single data frame
 pairs(sdmdata[,4:7], cex=0.1)
+
+sdmdata<-subset(sdmdata,is.na(bio_1)==F)
+#here we're just removing a couple of rows where the climate data are NAs.
+
+
+specdata<-as.data.frame(cbind(rep("Indri indri",length(sdmdata[,1])),
+                              sdmdata))
+
+names(specdata)[1:4]<-c("species","longitude","latitude","presabs")
+
+specdata<-subset(specdata,presabs==1)
+
+backdata<-as.data.frame(cbind(rep("background",length(sdmdata[,1])),
+                              sdmdata))
+
+names(backdata)[1:4]<-c("","longitude","latitude","presabs")
+
+backdata<-subset(backdata,presabs==0)
+
+
+write.table(specdata[,-4],paste(output_dir,"/Indriindri_swd.csv",sep=""),col.names=T,row.names=F,sep=",")
+write.table(backdata[,-4],paste(output_dir,"/background.csv",sep=""),col.names=T,row.names=F,sep=",")
+
+model<-MaxEnt(sdmdata[,-c(1:3)],sdmdata[,3],removeDuplicates=TRUE)
+
+
+
+plot(model)
+
+
+
+
+
+
+

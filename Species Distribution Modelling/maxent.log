@@ -1,0 +1,20 @@
+Fri Oct 04 14:54:48 BST 2024
+MaxEnt version 3.4.4
+Reading file background.csv
+readGrid: max memory 1908932608, total allocated 112197632, free 33068416, used 79129216, increment 1814064
+Reading samples from Indriindri_swd.csv
+Read samples: max memory 1908932608, total allocated 113246208, free 33689616, used 79556592, increment 427376
+Adding samples to background in feature space
+Command line used: 
+Command line to repeat: java density.MaxEnt nowarnings noprefixes jackknife "outputdirectory=/Users/hannahtong/Documents/temp/BUP/Species Distribution Modelling" samplesfile=/Users/hannahtong/Documents/temp/BUP/Data/Indriindri_swd.csv environmentallayers=/Users/hannahtong/Documents/temp/BUP/Data/background.csv
+Species: Indri_indri
+Layers: bio_1 bio_10 bio_11 bio_12 bio_13 bio_14 bio_15 bio_16 bio_17 bio_18 bio_19 bio_2 bio_3 bio_4 bio_5 bio_6 bio_7 bio_8 bio_9
+Layertypes: Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous
+jackknife: true
+outputdirectory: /Users/hannahtong/Documents/temp/BUP/Species Distribution Modelling
+samplesfile: /Users/hannahtong/Documents/temp/BUP/Data/Indriindri_swd.csv
+environmentallayers: /Users/hannahtong/Documents/temp/BUP/Data/background.csv
+
+getSamples: max memory 1908932608, total allocated 112721920, free 21843256, used 90878664, increment 11322072
+Time since start: 47.318
+Ending
