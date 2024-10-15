@@ -41,6 +41,26 @@ LV <- function(t, state, parameters) {
   }) # end with(as.list ...
 }
 
+#Solve the Lotka-Volterra, using the ode() function from the desolve package
+library(deSolve)  # Ensure you load the deSolve package
+
+# Define initial population values
+state <- c(x = 10, y = 10)  # Initial prey (x) and predator (y) populations
+
+# Define the equation parameters
+parameters <- c(alpha = 0.1, beta = 0.02, delta = 0.02, gamma = 0.4)
+
+# Define a sequence of time steps (500 steps with intervals of 0.01)
+times <- seq(0, 5, by = 0.01)  # from 0 to 5, in intervals of 0.01 (500 steps total)
+
+# Solve the system of differential equations using the ode() function
+out <- ode(y = state, times = times, func = LV, parms = parameters)
+
+# Convert the output into a data frame for easier handling and plotting
+out.df <- data.frame(out)
+
+# View the first few rows of the output
+head(out.df)
 
 
 
