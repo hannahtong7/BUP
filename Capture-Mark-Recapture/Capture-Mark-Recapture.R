@@ -99,15 +99,59 @@ mod4$results$reals
 (mod4$results$AIC)
 (mod3$results$AIC)
 
+sparrow.proc <- process.data(sparrow)
+sparrow.ddl <- make.design.data(sparrow.proc)
+
+fit.models <- function() {
+  Phi.dot <- list(formula=~1) # constant survival
+  Phi.sex <- list(formula=~sex) # survival differs between sexes
+  Phi.island <- list(formula=~island) # survival differs between islands
+  Phi.sex.island <- list(formula=~sex+island) # survival differs between sexes and islands
+  p.dot <- list(formula=~1) # constant detection
+  p.sex <- list(formula=~sex) # detection probability differs between sexes
+  p.island <- list(formula=~island) # detection probability differs between islands
+  p.sex.island <- list(formula=~sex+island) # detection probability differs between sexes and islands
+  cml <- create.model.list(c("Phi","p"))
+  results <- crm.wrapper(cml, data=sparrow.proc, ddl=sparrow.ddl,
+                         external=FALSE, accumulate=FALSE, hessian=TRUE)
+  return(results)
+}
+
+sparrow.models <- fit.models() # run function 
 
 
+sparrow.models # display model table
+
+mod5 <- sparrow.models[[2]]
+
+ggplot(mod5$results$reals$p, aes(island, estimate, ymin=lcl, ymax=ucl)) + 
+  geom_errorbar(width=0.2) + geom_point() + ylim(0,1)
+
+mod6 <- sparrow.models[[10]]
+ggplot(mod6$results$reals$Phi, aes(sex, estimate, ymin=lcl, ymax=ucl)) + 
+  geom_errorbar(width=0.2) + geom_point() + ylim(0,1)
+
+mod7 <- sparrow.models[[6]]
+ggplot(mod7$results$reals$Phi, aes(island, estimate, ymin=lcl, ymax=ucl)) + 
+  geom_errorbar(width=0.2) + geom_point() + ylim(0,1)
 
 
+sparrow.ddl$Phi$cold <- "Cold" # new column 
+sparrow.ddl$Phi$cold[sparrow.ddl$Phi$time==2 | sparrow.ddl$Phi$time==5 | sparrow.ddl$Phi$time==8] <- "VeryCold" # very cold winters between capture events 2 and 3, 5 and 6, and 8 and 9
+head(sparrow.ddl$Phi)
 
+Phi.cold <- list(formula=~cold) 
+p.island <- list(formula=~island) 
 
+mod8 <- crm(sparrow.proc, 
+            sparrow.ddl, 
+            model.parameters = list(Phi = Phi.cold, 
+                                    p = p.island), 
+            accumulate=FALSE, hessian = TRUE)
 
-
-
-
-
+mod8$results$reals
+(mod8$results$AIC)
+(mod5$results$AIC)
+ggplot(mod8$results$reals$Phi, aes(cold, estimate, ymin=lcl, ymax=ucl)) + 
+  geom_errorbar(width=0.2) + geom_point() + ylim(0,1)
 
