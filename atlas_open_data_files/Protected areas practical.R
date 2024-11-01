@@ -58,11 +58,12 @@ coords.dat.island <- coords.dat[coords.dat.island.ind,]
 plot(st_geometry(UK.sf))
 points(coords.dat.island)
 
-
+#Select the most recent time frame
+#Create one data frame for summer and one for winter
 
 ##select bird data for the desired period
 bird.dat <- bird.dat.tot[which(bird.dat.tot$period=="2008-11" | bird.dat.tot$period=="2007/08-10/11"),c("period","speccode","grid")]
-
+#dimension of the matrix
 dim(coords.dat.island)
 coords.dat.island <- coords.dat.island[which(coords.dat.island$grid %in% bird.dat$grid),]
 dim(coords.dat.island)
@@ -76,7 +77,7 @@ bird.winter.dat <- bird.dat[which(bird.dat$period=="2007/08-10/11"),c("speccode"
 # coords.winter.dat <- coords.dat.island[which(coords.dat.island$grid %in% bird.winter.dat$grid),]
 # coords.winter.dat <- coords.winter.dat[order(coords.winter.dat$grid),]
 
-
+#Transform the data frames into site by species data frames - use tidyverse
 bird.summer.dat$presence <- 1 ##add a column with the values to populate the site-by-species data frame
 bird.summer.dat.pa <- bird.summer.dat %>% 
   pivot_wider(names_from=speccode,values_from=c(presence)) ##site-by-species data frames with NAs
@@ -98,7 +99,7 @@ row.names(bird.winter.dat.pa) <- bird.winter.dat.pa$grid
 bird.winter.dat.pa <- bird.winter.dat.pa[,-1]
 bird.winter.dat.pa <- bird.winter.dat.pa[order(row.names(bird.winter.dat.pa)),]
 
-
+#Confirm there are no empty cells, nor species occuring in no cell (since we only kept species occuring on the main island)
 which(colSums(bird.summer.dat.pa)==0)
 which(rowSums(bird.summer.dat.pa)==0)
 which(colSums(bird.winter.dat.pa)==0)
