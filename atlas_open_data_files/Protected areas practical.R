@@ -108,24 +108,26 @@ which(rowSums(bird.winter.dat.pa)==0)
 
 
 
-
+#Compute the different patters for the data - obtain an overview of how bird diversity is structured over GB
 ###Gamma and alpha diversity
+#Gamma diversity is the number of columns of the data frams.
 ##Gamma
 ncol(bird.summer.dat.pa)
 ncol(bird.winter.dat.pa)
+#Alpha diversity is the average sum of each row.
 ##Alpha
 mean(rowSums(bird.summer.dat.pa))
 mean(rowSums(bird.winter.dat.pa))
-
+#Plot the distribution of alpha diversity values 
 par(mfrow=c(1,2))
 hist(rowSums(bird.summer.dat.pa),main="Summer",xlab="Richness")
 hist(rowSums(bird.winter.dat.pa),main="Winter",xlab="Richness")
 
-
+#Species accumulation curves
 ##species accumulation curves & Chao estimator
 SAC.summer <- specaccum(bird.summer.dat.pa)
 SAC.winter <- specaccum(bird.winter.dat.pa)
-
+#Do you use the chao estimator? 
 Estim.summer <- poolaccum(bird.summer.dat.pa)
 Estim.winter <- poolaccum(bird.winter.dat.pa)
 
@@ -140,7 +142,7 @@ last(rowMeans(Estim.summer$chao))/last(SAC.summer$richness)
 last(rowMeans(Estim.winter$chao))/last(SAC.winter$richness)
 
 
-
+#Compute the histogram of the species occupancy for the simpson and soresen dissimilarity indices and plot thier distributions
 ##Beta diversity
 beta.summer <- beta.pair(bird.summer.dat.pa)
 beta.winter <- beta.pair(bird.winter.dat.pa)
@@ -151,14 +153,16 @@ mean(beta.winter$beta.sim)
 mean(beta.summer$beta.sor)
 mean(beta.winter$beta.sor)
 
+#Plot simpson summer and winter
 par(mfrow=c(1,2))
 hist(beta.summer$beta.sim)
 hist(beta.winter$beta.sim)
-
+#Sorensen plot
 par(mfrow=c(1,2))
 hist(beta.summer$beta.sor)
 hist(beta.winter$beta.sor)
 
+#Compute the histogram of the species occupancy which is the number of grid cells in which they occur 
 ##OFD
 freq.summer <- colSums(bird.summer.dat.pa)/nrow(bird.summer.dat.pa)
 freq.winter <- colSums(bird.winter.dat.pa)/nrow(bird.winter.dat.pa)
@@ -167,9 +171,7 @@ par(mfrow=c(1,2))
 hist(freq.summer,main="Summer",xlab="Occupancy",breaks = seq(0,1,0.1))
 hist(freq.winter,main="Winter",xlab="Occupancy",breaks = seq(0,1,0.1))
 
-
-
-
+#Increased diversity in the summer and reduced diversity in the winter
 
 
 ##################
