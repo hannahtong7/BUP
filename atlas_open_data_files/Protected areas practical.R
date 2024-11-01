@@ -31,8 +31,6 @@ str(coords.dat)
 coords.dat <- coords.dat[which(coords.dat$resolution==10),]
 ##grid: https://britishnationalgrid.uk/#NC148273
 
-
-
 ## https://jncc.gov.uk/our-work/uk-protected-area-datasets-for-download/
 
 
@@ -42,6 +40,7 @@ map(database="world",regions="UK")
 points(coords.dat$long,coords.dat$lat)
 
 UK <- map(database="world",regions="UK",fill=TRUE)
+#Store the polygons defining the uk and covert them into a simple feature. 
 UK.sf <- st_as_sf(UK)
 UK.sf <- st_cast(UK.sf, "POLYGON") ##don't worry about the warning
 plot(st_geometry(UK.sf))
@@ -50,9 +49,12 @@ points(coords.dat)
 ##keep cells with at least one corner on the main island
 # coords.sf <- st_multipoint(as.matrix(coords.dat[,1:2]))
 # coords.dat.keep <- st_intersection(coords.sf,UK.sf)
+#Keep grid cells with at least one corner on the main island.
 coords.sf <- st_as_sf(coords.dat[,1:2],coords = c("long", "lat"), crs = st_crs(UK.sf))
+#Isolate the points intersecting the different polygons representing the UK and only keep the points intersecting the 15th polygon, which corresponds to the main island. 
 coords.dat.island.ind <- st_intersects(UK.sf,coords.sf)[[15]]
 coords.dat.island <- coords.dat[coords.dat.island.ind,]
+#Visualise the output to confirm that you kept the correct points. 
 plot(st_geometry(UK.sf))
 points(coords.dat.island)
 
